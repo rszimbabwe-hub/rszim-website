@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { MessageSquare } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -74,8 +74,46 @@ function netlifyFormsSupportedClient(): boolean {
   return false;
 }
 
+/** Lifts fixed bottom UI above the mobile keyboard using VisualViewport (100dvh does not shrink with the keyboard). */
+function useVisualViewportKeyboardShift(active: boolean) {
+  const [liftPx, setLiftPx] = useState(0);
+  const [maxHeightPx, setMaxHeightPx] = useState<number | null>(null);
+
+  useLayoutEffect(() => {
+    if (!active || typeof window === "undefined") {
+      setLiftPx(0);
+      setMaxHeightPx(null);
+      return;
+    }
+    const vv = window.visualViewport;
+    if (!vv) {
+      setMaxHeightPx(null);
+      return;
+    }
+
+    const sync = () => {
+      const overlap = Math.max(0, window.innerHeight - vv.offsetTop - vv.height);
+      setLiftPx(overlap);
+      // Cap sheet height to what is actually visible above the keyboard (minus FAB / margins).
+      const cap = Math.min(384, Math.max(140, vv.height - 72));
+      setMaxHeightPx(cap);
+    };
+
+    sync();
+    vv.addEventListener("resize", sync);
+    vv.addEventListener("scroll", sync);
+    return () => {
+      vv.removeEventListener("resize", sync);
+      vv.removeEventListener("scroll", sync);
+    };
+  }, [active]);
+
+  return { liftPx, maxHeightPx };
+}
+
 export function InquiryChat() {
   const [open, setOpen] = useState(false);
+  const { liftPx, maxHeightPx } = useVisualViewportKeyboardShift(open);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -182,12 +220,14 @@ export function InquiryChat() {
             left: "auto",
             right: "max(1.25rem, env(safe-area-inset-right, 0px))",
             top: "auto",
-            bottom:
-              "calc(max(1.25rem, env(safe-area-inset-bottom, 0px)) + 5.25rem + 0.75rem)",
+            // Extra px lifts the sheet above the mobile keyboard (avoid `transform` — conflicts with sheet enter/exit animations).
+            bottom: `calc(max(1.25rem, env(safe-area-inset-bottom, 0px)) + 5.25rem + 0.75rem + ${liftPx}px)`,
             width: "min(22rem, calc(100vw - 1.5rem))",
+            maxHeight: maxHeightPx != null ? `${maxHeightPx}px` : undefined,
+            transition: "bottom 0.15s ease-out",
           }}
           className={cn(
-            "max-h-[min(24rem,calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-6.75rem))] flex-col gap-1 overflow-hidden rounded-2xl border-2 border-green-100 bg-background p-0 shadow-2xl",
+            "min-h-0 max-h-[min(24rem,calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-6.75rem))] flex-col gap-1 overflow-hidden rounded-2xl border-2 border-green-100 bg-background p-0 shadow-2xl",
             "data-[state=open]:slide-in-from-bottom-4 data-[state=closed]:slide-out-to-bottom-4",
           )}
         >
@@ -214,7 +254,7 @@ export function InquiryChat() {
           ) : (
             <form
               onSubmit={handleSubmit}
-              className="flex shrink-0 flex-col gap-1.5 px-2 pb-2 pt-0"
+              className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto overscroll-y-contain px-2 pb-2 pt-0 [-webkit-overflow-scrolling:touch]"
             >
               <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                 <div className="min-w-0 space-y-0.5">
