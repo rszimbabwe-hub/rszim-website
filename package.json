@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/write-seo-files.mjs && tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -53,6 +53,7 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
+    "@types/node": "^22.15.3",
     "@tailwindcss/vite": "^4.1.7",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",

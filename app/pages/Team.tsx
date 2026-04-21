@@ -1,199 +1,203 @@
-import { Mail, Phone, Users, Award, Briefcase } from "lucide-react";
+import { User } from "lucide-react";
+import { Seo } from "../components/Seo";
+import { cn } from "../components/ui/utils";
 
-export function Team() {
-  const leadership = [
-    {
-      name: "Wonder Chinhuru",
-      role: "Executive Director",
-      qualification: "MSc in Disaster Risk Reduction and Livelihoods Management",
-      experience: "10+ years in community resilience",
-      phone: "0772 978 904",
-      email: "wonderchinhuru@gmail.com",
-    },
-    {
-      name: "Godfrey Madyauta",
-      role: "Programs Director",
-      qualification: "MSc Climate Change and Sustainable Development",
-      experience: "8+ years in Monitoring and Evaluation, Humanitarian and Resilience programs",
-      phone: "0778 934 153",
-      email: "madyautagodfrey@gmail.com",
-    },
-  ];
+function photoPath(filename: string): string {
+  return `/${encodeURIComponent(filename)}`;
+}
+
+const cardFrameClass =
+  "border-green-600 bg-gradient-to-b from-green-50 to-white shadow-md shadow-green-900/10";
+
+function TeamMemberCard({
+  name,
+  role,
+  imageFile,
+  vacant,
+  imageClassName,
+}: {
+  name: string;
+  role: string;
+  imageFile: string | null;
+  vacant?: boolean;
+  /** Extra classes on the photo (e.g. nudge position to hide a source edge without cropping the face). */
+  imageClassName?: string;
+}) {
+  const showPhoto = imageFile && !vacant;
 
   return (
+    <article
+      className={`flex flex-col items-center rounded-xl border-2 p-4 pt-5 text-center ${cardFrameClass}`}
+    >
+      <div
+        className="relative mb-4 h-36 w-36 shrink-0 overflow-hidden rounded-full bg-gray-200 shadow-inner ring-4 ring-green-100 ring-offset-2 ring-offset-white md:h-40 md:w-40"
+      >
+        {showPhoto ? (
+          <img
+            src={photoPath(imageFile)}
+            alt={`Portrait of ${name}`}
+            className={cn(
+              "h-full w-full object-cover object-top",
+              imageClassName,
+            )}
+            loading="lazy"
+            decoding="async"
+          />
+        ) : vacant ? (
+          <div className="flex h-full w-full items-center justify-center bg-green-50 text-2xl font-semibold text-green-400">
+            —
+          </div>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-green-50 text-green-600">
+            <User className="h-14 w-14" strokeWidth={1.25} aria-hidden />
+          </div>
+        )}
+      </div>
+      <h3 className="text-lg font-bold leading-snug text-gray-900 md:text-xl">{name}</h3>
+      <p className="mt-1 text-sm leading-snug text-gray-700 md:text-base">{role}</p>
+      {vacant ? (
+        <p className="mt-2 text-xs font-medium uppercase tracking-wide text-green-800">
+          Position vacant
+        </p>
+      ) : null}
+    </article>
+  );
+}
+
+/** Vertical connector between tiers */
+function ConnectorDown({ tall = false }: { tall?: boolean }) {
+  return (
+    <div className="flex justify-center py-0" aria-hidden>
+      <div className={`w-0.5 bg-green-600/40 ${tall ? "h-10 md:h-12" : "h-6 md:h-8"}`} />
+    </div>
+  );
+}
+
+/** Horizontal bar with three downward stubs (desktop) */
+function BranchThreeDown() {
+  return (
+    <div className="relative mx-auto hidden h-8 w-full max-w-4xl md:block" aria-hidden>
+      <div className="absolute left-[16.666%] right-[16.666%] top-0 h-0.5 bg-green-600/40" />
+      <div className="absolute left-[16.666%] top-0 h-8 w-0.5 -translate-x-1/2 bg-green-600/40" />
+      <div className="absolute left-1/2 top-0 h-8 w-0.5 -translate-x-1/2 bg-green-600/40" />
+      <div className="absolute left-[83.333%] top-0 h-8 w-0.5 -translate-x-1/2 bg-green-600/40" />
+    </div>
+  );
+}
+
+export function Team() {
+  return (
     <div className="bg-white">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-green-700 to-green-900 text-white py-12 md:py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl mb-4 md:mb-6">Our Team</h1>
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-green-100 max-w-3xl">
-            Experienced professionals combining local expertise with national standards to drive scalable impact
+      <Seo
+        title="Our Team | RSZ Zimbabwe"
+        description="RSZ organogram: Executive Director, senior advisors and directors, and programme operations—including resource mobilisation, finance, and partnerships."
+      />
+
+      <section className="bg-gradient-to-br from-green-700 to-green-900 py-12 text-white md:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h1 className="mb-4 text-3xl sm:text-4xl lg:text-5xl">Our Team</h1>
+          <p className="max-w-3xl text-base text-green-100 sm:text-lg md:text-xl lg:text-2xl">
+            Resilient Societies of Zimbabwe (RSZ): leadership structure and key roles
           </p>
         </div>
       </section>
 
-      {/* Team Overview */}
-      <section className="py-8 md:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl mb-3 md:mb-4">Team Composition</h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-              Our diverse team brings together technical expertise, field experience, and community knowledge
+      <section className="py-10 md:py-14">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 text-center md:mb-12">
+            <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">Organogram</h2>
+            <p className="mx-auto mt-2 max-w-2xl text-gray-600">
+              How our team is structured: the Executive Director, senior leadership, and
+              programme &amp; operations roles reporting to the Programs Director / MEAL.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 max-w-4xl mx-auto mb-12 md:mb-16">
-            <div className="bg-gradient-to-br from-green-600 to-green-700 text-white p-8 rounded-lg text-center">
-              <div className="text-5xl mb-3">8</div>
-              <div className="text-lg">Full-time Staff</div>
-              <div className="text-sm text-green-100 mt-2">Including Field Coordinators</div>
+
+          <div className="flex flex-col items-center">
+            {/* Level 1 — Executive Director */}
+            <div className="w-full max-w-sm">
+              <TeamMemberCard
+                name="Wonder Chinhuru"
+                role="Executive Director"
+                imageFile="Wonder Chinhuru.jpeg"
+              />
             </div>
-            <div className="bg-gradient-to-br from-green-600 to-green-700 text-white p-8 rounded-lg text-center">
-              <div className="text-5xl mb-3">20</div>
-              <div className="text-lg">Community Volunteers</div>
-              <div className="text-sm text-green-100 mt-2">Active in disaster-prone areas</div>
+
+            <ConnectorDown tall />
+
+            <BranchThreeDown />
+            <div className="h-2 md:hidden" aria-hidden />
+
+            {/* Level 2 — reports to ED */}
+            <div className="grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 md:gap-4">
+              <TeamMemberCard
+                name="Dr. Nelson Chanza"
+                role="Program Technical Advisor"
+                imageFile="Dr Nelson Chanza.jpeg"
+              />
+              <TeamMemberCard
+                name="Godfrey Madyauta"
+                role="Programs Director / MEAL"
+                imageFile="Godfrey Madyauta.jpeg"
+              />
+              <TeamMemberCard
+                name="Evelyn Ngorima"
+                role="Policy & Legal Advisor"
+                imageFile="Evelyn Ngorima.jpeg"
+              />
             </div>
-            <div className="bg-gradient-to-br from-green-600 to-green-700 text-white p-8 rounded-lg text-center">
-              <div className="text-5xl mb-3">10+</div>
-              <div className="text-lg">Years Experience</div>
-              <div className="text-sm text-green-100 mt-2">Leadership expertise</div>
+
+            <p className="mb-2 mt-10 max-w-xl text-center text-sm font-medium text-gray-600 md:mt-12">
+              Programme &amp; operations
+              <span className="block text-xs font-normal text-gray-500">
+                (reporting to the Programs Director / MEAL)
+              </span>
+            </p>
+
+            {/* Connector: only middle column on desktop */}
+            <div className="mx-auto hidden w-full max-w-5xl grid-cols-3 md:grid">
+              <div />
+              <ConnectorDown />
+              <div />
+            </div>
+            <div className="flex justify-center md:hidden" aria-hidden>
+              <div className="h-6 w-0.5 bg-green-600/40" />
+            </div>
+
+            <BranchThreeDown />
+            <div className="h-2 md:hidden" aria-hidden />
+
+            {/* Level 3 — reports to Programs Director / MEAL */}
+            <div className="grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 md:gap-4">
+              <TeamMemberCard
+                name="Emmanuel Mazangwa"
+                role="Resource Mobilisation & Operations Manager"
+                imageFile="Emmanuel Mazangwa.jpeg"
+                imageClassName="-translate-y-1"
+              />
+              <TeamMemberCard
+                name="Tinashe Mhlanga"
+                role="Finance & Admin Manager"
+                imageFile="Tinashe Mhlanga.jpeg"
+              />
+              <TeamMemberCard
+                name="Vacant"
+                role="Partnerships & Communication Manager"
+                imageFile={null}
+                vacant
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Leadership Team */}
-      <section className="py-8 md:py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl mb-3 md:mb-4">Leadership Team</h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-              Meet the experienced leaders guiding RSZ's strategic direction and program implementation
+      <section className="py-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">Our commitment</h2>
+            <p className="mt-3 text-lg text-gray-700">
+              RSZ combines local expertise with national standards: community-centred delivery,
+              accountability, and inclusive leadership across all levels of the organisation.
             </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
-            {leadership.map((leader, index) => (
-              <div key={index} className="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-200">
-                <div className="flex items-start gap-3 md:gap-4 mb-4 md:mb-6">
-                  <div className="w-16 h-16 md:w-20 md:h-20 bg-green-600 rounded-full flex items-center justify-center text-white text-2xl md:text-3xl flex-shrink-0">
-                    {leader.name.split(' ').map(n => n[0]).join('')}
-                  </div>
-                  <div>
-                    <h3 className="text-xl md:text-2xl mb-1">{leader.name}</h3>
-                    <p className="text-green-600 font-semibold text-sm md:text-base">{leader.role}</p>
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <Award className="text-green-600 flex-shrink-0 mt-1" size={20} />
-                    <div>
-                      <div className="text-sm text-gray-600 mb-1">Qualification</div>
-                      <p className="text-gray-800">{leader.qualification}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Briefcase className="text-green-600 flex-shrink-0 mt-1" size={20} />
-                    <div>
-                      <div className="text-sm text-gray-600 mb-1">Experience</div>
-                      <p className="text-gray-800">{leader.experience}</p>
-                    </div>
-                  </div>
-                  <div className="border-t border-gray-200 pt-4 space-y-2">
-                    <div className="flex items-center gap-3 text-gray-700">
-                      <Phone size={18} className="text-green-600" />
-                      <span>{leader.phone}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-700">
-                      <Mail size={18} className="text-green-600" />
-                      <a href={`mailto:${leader.email}`} className="text-green-600 hover:text-green-700">
-                        {leader.email}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Expertise */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl mb-4">Team Expertise</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our team brings diverse technical skills and field experience across multiple sectors
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: Users,
-                title: "Field Coordinators",
-                description: "Experienced staff managing community-level program implementation",
-              },
-              {
-                icon: Briefcase,
-                title: "Technical Specialists",
-                description: "Experts in disaster risk reduction, climate resilience, and MEL",
-              },
-              {
-                icon: Award,
-                title: "Program Staff",
-                description: "Professionals in humanitarian response, agriculture, and community development",
-              },
-              {
-                icon: Users,
-                title: "Community Volunteers",
-                description: "Local champions supporting resilience initiatives in their communities",
-              },
-            ].map((expertise, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <expertise.icon className="text-green-600" size={24} />
-                </div>
-                <h3 className="text-xl mb-3">{expertise.title}</h3>
-                <p className="text-gray-700">{expertise.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Values */}
-      <section className="py-16 bg-green-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl mb-6">Our Team's Commitment</h2>
-            <p className="text-lg text-gray-700 mb-6">
-              RSZ leadership and team combine local expertise with national standards to drive scalable impact. We are committed to:
-            </p>
-            <div className="grid sm:grid-cols-2 gap-6 text-left">
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl mb-3 text-green-600">Community-Centered Approach</h3>
-                <p className="text-gray-700">
-                  Working alongside communities to co-design and implement solutions that enhance dignity and ownership
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl mb-3 text-green-600">Continuous Learning</h3>
-                <p className="text-gray-700">
-                  Investing in professional development and staying current with best practices in disaster resilience
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl mb-3 text-green-600">Inclusive Leadership</h3>
-                <p className="text-gray-700">
-                  Promoting diversity, gender equality, and representation in all levels of our organization
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl mb-3 text-green-600">Accountability & Results</h3>
-                <p className="text-gray-700">
-                  Delivering measurable impact through data-driven programming and transparent resource management
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>

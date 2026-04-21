@@ -1,6 +1,9 @@
 import { Link, Outlet, useLocation } from "react-router";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { InquiryChat } from "./InquiryChat";
+import { OrganizationJsonLd } from "./OrganizationJsonLd";
+import { FACEBOOK_PAGE_URL, LINKEDIN_URL, SITE_INQUIRY_EMAIL } from "../seo/site";
 
 export function Layout() {
   const location = useLocation();
@@ -21,7 +24,9 @@ export function Layout() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <>
+      <OrganizationJsonLd />
+      <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -111,8 +116,31 @@ export function Layout() {
               <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4">Contact Us</h3>
               <p className="text-gray-400 text-sm">Stand Number 2288, Mutare (Chikanga)</p>
               <p className="text-gray-400 text-sm">Manicaland Province, Zimbabwe</p>
-              <p className="text-gray-400 text-sm mt-2">Email: rsocieties@gmail.com</p>
+              <p className="text-gray-400 text-sm mt-2">
+                Email:{" "}
+                <a href={`mailto:${SITE_INQUIRY_EMAIL}`} className="hover:text-white underline-offset-2">
+                  {SITE_INQUIRY_EMAIL}
+                </a>
+              </p>
               <p className="text-gray-400 text-sm">Phone: +263 772 978 904</p>
+              <p className="text-gray-400 text-sm mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                <a
+                  href={FACEBOOK_PAGE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  Facebook
+                </a>
+                <a
+                  href={LINKEDIN_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  LinkedIn
+                </a>
+              </p>
             </div>
             <div>
               <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4">Quick Links</h3>
@@ -132,6 +160,8 @@ export function Layout() {
           </div>
         </div>
       </footer>
+      <InquiryChat />
     </div>
+    </>
   );
 }

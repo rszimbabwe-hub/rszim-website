@@ -1,9 +1,14 @@
 import { Link } from "react-router";
 import { ArrowRight, Shield, Users, Lightbulb, Globe } from "lucide-react";
+import { Seo } from "../components/Seo";
 
 export function Home() {
   return (
     <div className="bg-white">
+      <Seo
+        title="Resilient Societies of Zimbabwe (RSZ)"
+        description="RSZ empowers Zimbabwean communities to face disasters and livelihood shocks through sustainable mitigation, preparedness, and resilience programmes. Based in Mutare, Manicaland."
+      />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-green-700 to-green-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32">

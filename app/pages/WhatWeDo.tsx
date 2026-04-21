@@ -1,4 +1,5 @@
 import { Layers, Building2, Handshake, TrendingUp } from "lucide-react";
+import { Seo } from "../components/Seo";
 
 export function WhatWeDo() {
   const thematicAreas = [
@@ -49,6 +50,10 @@ export function WhatWeDo() {
 
   return (
     <div className="bg-white">
+      <Seo
+        title="What We Do | RSZ Zimbabwe"
+        description="RSZ delivers disaster mitigation, early warning, climate-resilient livelihoods, economic strengthening, and partnerships with government, NGOs, and communities in Zimbabwe."
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-green-700 to-green-900 text-white py-12 md:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

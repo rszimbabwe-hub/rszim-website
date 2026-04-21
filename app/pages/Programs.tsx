@@ -1,8 +1,13 @@
 import { BarChart3, Database, Lock, Target, Users, MapPin } from "lucide-react";
+import { Seo } from "../components/Seo";
 
 export function Programs() {
   return (
     <div className="bg-white">
+      <Seo
+        title="Programs & Impact | RSZ Zimbabwe"
+        description="Explore RSZ’s programme areas, geographic focus in Manicaland and beyond, and commitment to data-driven delivery, safeguarding, and accountability."
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-green-700 to-green-900 text-white py-12 md:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -51,6 +51,17 @@ The repo includes **`netlify.toml`**: build command `npm run build`, publish dir
 2. In [Netlify](https://app.netlify.com), import the repo and deploy with the settings from `netlify.toml`.
 3. Add a custom domain later under **Domain management** in the Netlify UI.
 
+### Search engine optimization (SEO)
+
+The site includes **per-page titles and descriptions**, **Open Graph / Twitter** meta tags, **canonical URLs**, **Organization [JSON-LD](https://developers.google.com/search/docs/appearance/structured-data/organization)** in `OrganizationJsonLd`, and a **`robots.txt`** plus **`sitemap.xml`** generated at build time when the site URL is known.
+
+**Configure the public URL** (no trailing slash) so social previews and Google get correct links:
+
+- **Netlify:** Either set **`VITE_SITE_URL`** under **Site configuration → Environment variables** to your canonical address (e.g. `https://www.yourdomain.co.zw`), or rely on Netlify’s automatic **`URL`** / **`DEPLOY_PRIME_URL`** during builds (the Vite config passes these through for client-side meta tags when `VITE_SITE_URL` is unset).
+- Copy **`.env.example`** to **`.env`** locally if you want to test OG URLs in dev.
+
+After launch, register the site in **[Google Search Console](https://search.google.com/search-console)** and submit the sitemap URL: `https://your-domain/sitemap.xml`. Ranking for your name still depends on relevance, backlinks, and time; technical SEO makes the site *eligible* to be understood and indexed correctly.
+
 ## Brand assets
 
 Place the header / favicon image at:
@@ -68,6 +79,7 @@ Files in `public/` are served from the site root (e.g. `/logo.png`).
 | `public/`   | Static assets (logo, etc.)                |
 | `main.tsx`  | App entry                                 |
 | `index.html`| HTML shell                                |
+| `scripts/`  | Build helpers (e.g. SEO files)          |
 
 ## License
 

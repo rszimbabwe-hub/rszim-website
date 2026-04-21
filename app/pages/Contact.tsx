@@ -1,5 +1,40 @@
 import { MapPin, Phone, Mail, Send } from "lucide-react";
 import { useState } from "react";
+import { Seo } from "../components/Seo";
+import { submitToWeb3Forms } from "../lib/web3formsSubmit";
+import {
+  FACEBOOK_PAGE_URL,
+  LINKEDIN_URL,
+  SITE_INQUIRY_EMAIL,
+  X_TWITTER_URL,
+} from "../seo/site";
+
+const SUBJECT_LABELS: Record<string, string> = {
+  partnership: "Partnership Inquiry",
+  funding: "Funding Opportunity",
+  consultancy: "Consultancy Request",
+  volunteer: "Volunteer Opportunity",
+  general: "General Inquiry",
+};
+
+function buildContactMessage(
+  name: string,
+  email: string,
+  organization: string,
+  subjectKey: string,
+  message: string,
+): string {
+  const subjectLine = SUBJECT_LABELS[subjectKey] ?? subjectKey;
+  return [
+    `Name: ${name}`,
+    `Email: ${email}`,
+    `Organization: ${organization || "—"}`,
+    `Subject: ${subjectLine}`,
+    "",
+    "Message:",
+    message,
+  ].join("\n");
+}
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -9,10 +44,51 @@ export function Contact() {
     subject: "",
     message: "",
   });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const accessKey = (import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ?? "").trim();
+  const isDev = import.meta.env.DEV;
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Thank you for your message! We will get back to you soon.");
+    setErrorMessage("");
+
+    if (!accessKey) {
+      setStatus("error");
+      setErrorMessage(
+        isDev
+          ? `Add VITE_WEB3FORMS_ACCESS_KEY to .env (see web3forms.com), or email ${SITE_INQUIRY_EMAIL}.`
+          : `This form is not configured. Please email ${SITE_INQUIRY_EMAIL} directly.`,
+      );
+      return;
+    }
+
+    setStatus("sending");
+    const messageBody = buildContactMessage(
+      formData.name,
+      formData.email,
+      formData.organization,
+      formData.subject,
+      formData.message,
+    );
+    const subjectLabel = SUBJECT_LABELS[formData.subject] ?? "Contact form";
+
+    const result = await submitToWeb3Forms({
+      accessKey,
+      subject: `RSZ Contact: ${subjectLabel} — ${formData.name}`,
+      fromName: formData.name,
+      visitorEmail: formData.email,
+      message: messageBody,
+    });
+
+    if (!result.ok) {
+      setStatus("error");
+      setErrorMessage(result.message);
+      return;
+    }
+
+    setStatus("sent");
     setFormData({ name: "", email: "", organization: "", subject: "", message: "" });
   };
 
@@ -31,6 +107,10 @@ export function Contact() {
 
   return (
     <div className="bg-white">
+      <Seo
+        title="Contact & Partners | RSZ Zimbabwe"
+        description="Contact Resilient Societies of Zimbabwe in Mutare (Chikanga), Manicaland—email, phone, and partnership enquiries. Work with government, UN, and community partners."
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-green-700 to-green-900 text-white py-12 md:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,8 +158,11 @@ export function Contact() {
               <h3 className="text-xl mb-3">Email Addresses</h3>
               <p className="text-gray-700 mb-2">
                 <strong>General Inquiries:</strong><br />
-                <a href="mailto:rsocieties@gmail.com" className="text-green-600 hover:text-green-700">
-                  rsocieties@gmail.com
+                <a
+                  href={`mailto:${SITE_INQUIRY_EMAIL}`}
+                  className="text-green-600 hover:text-green-700"
+                >
+                  {SITE_INQUIRY_EMAIL}
                 </a>
               </p>
               <p className="text-gray-700">
@@ -95,6 +178,25 @@ export function Contact() {
           <div className="max-w-3xl mx-auto">
             <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-200">
               <h2 className="text-2xl md:text-3xl mb-4 md:mb-6">Send Us a Message</h2>
+              {status === "sent" ? (
+                <div
+                  className="rounded-lg border border-green-200 bg-green-50 px-4 py-6 text-green-900"
+                  role="status"
+                >
+                  <p className="font-medium">Thank you for your message.</p>
+                  <p className="mt-2 text-sm text-green-800">We will get back to you soon.</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStatus("idle");
+                      setErrorMessage("");
+                    }}
+                    className="mt-6 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+                  >
+                    Send another message
+                  </button>
+                </div>
+              ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
@@ -174,14 +276,22 @@ export function Contact() {
                     placeholder="Tell us about your inquiry..."
                   />
                 </div>
+                {status === "error" ? (
+                  <p className="text-sm text-red-600" role="alert">
+                    {errorMessage}
+                  </p>
+                ) : null}
+
                 <button
                   type="submit"
-                  className="w-full bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                  disabled={status === "sending"}
+                  className="w-full bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
                 >
-                  Send Message
+                  {status === "sending" ? "Sending…" : "Send Message"}
                   <Send size={20} />
                 </button>
               </form>
+              )}
             </div>
           </div>
         </div>
@@ -196,9 +306,10 @@ export function Contact() {
           </div>
           <div className="flex justify-center gap-6">
             <a
-              href="https://facebook.com/RSZimbabwe"
+              href={FACEBOOK_PAGE_URL}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Resilient Societies of Zimbabwe on Facebook"
               className="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:bg-green-50 transition-colors shadow-md"
             >
               <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
@@ -206,9 +317,10 @@ export function Contact() {
               </svg>
             </a>
             <a
-              href="https://twitter.com/ResilientSZ"
+              href={X_TWITTER_URL}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="X (opens x.com)"
               className="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:bg-green-50 transition-colors shadow-md"
             >
               <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
@@ -216,9 +328,10 @@ export function Contact() {
               </svg>
             </a>
             <a
-              href="https://linkedin.com/company/rsz"
+              href={LINKEDIN_URL}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Resilient Societies of Zimbabwe on LinkedIn"
               className="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:bg-green-50 transition-colors shadow-md"
             >
               <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">

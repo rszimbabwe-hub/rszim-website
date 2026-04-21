@@ -1,4 +1,5 @@
 import { CheckCircle, Target, Eye } from "lucide-react";
+import { Seo } from "../components/Seo";
 
 export function About() {
   const principles = [
@@ -26,6 +27,10 @@ export function About() {
 
   return (
     <div className="bg-white">
+      <Seo
+        title="About Resilient Societies of Zimbabwe"
+        description="Learn about RSZ’s vision, mission, and guiding principles—transparency, inclusion, innovation, diversity, and accountability—in disaster resilience and community development across Zimbabwe."
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-green-700 to-green-900 text-white py-12 md:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

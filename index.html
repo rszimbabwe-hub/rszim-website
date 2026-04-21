@@ -3,11 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Resilient Societies of Zimbabwe (RSZ) builds community resilience through disaster mitigation, preparedness, and response. NGO in Mutare, Manicaland, Zimbabwe."
+    />
+    <meta name="theme-color" content="#15803d" />
     <link rel="icon" type="image/png" href="/logo.png" />
     <title>Resilient Societies of Zimbabwe</title>
+    <!-- Before CSS/JS: avoid an empty “void” if the shell is slow; mobile carriers sometimes cache stale HTML pointing at removed /assets/*.js -->
+    <style>
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+        background: #fff;
+        color: #171717;
+      }
+      #root {
+        min-height: 100dvh;
+      }
+    </style>
+    <script>
+      (function () {
+        var flag = "rsz-asset-reload-once";
+        window.addEventListener(
+          "error",
+          function (e) {
+            var t = e && e.target;
+            if (!t || t.tagName !== "SCRIPT" || !t.src || t.src.indexOf("/assets/") < 0) return;
+            try {
+              if (sessionStorage.getItem(flag)) return;
+              sessionStorage.setItem(flag, "1");
+            } catch (_) {}
+            location.reload();
+          },
+          true,
+        );
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <!-- Netlify Forms: build-time detection; React posts the same fields via fetch -->
+    <form
+      name="rsz-inquiry"
+      method="POST"
+      action="/"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      hidden
+    >
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="phone" />
+      <input type="text" name="organisation" />
+      <textarea name="description"></textarea>
+      <input name="bot-field" />
+    </form>
     <script type="module" src="/main.tsx"></script>
   </body>
 </html>
