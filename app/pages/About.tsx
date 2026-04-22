@@ -50,7 +50,7 @@ export function About() {
               Resilient Societies in Zimbabwe (RSZ) is a local non-governmental organisation established in 2020 under the Private Voluntary Organisations (PVO) Act [Chapter 17:05] of the Government of Zimbabwe.
             </p>
             <p className="text-lg text-gray-700 mb-4">
-              RSZ is registered as a domestic PVO (PVO 19/20), head-quartered in Mutare (Chikanga), Manicaland Province, and operates primarily in disaster-prone districts such as Chimanimani and Chipinge.
+              RSZ is registered as a domestic PVO (PVO 19/20), head-quartered in Mutare (Chikanga), Manicaland Province, and operates primarily in disaster-prone districts such as Chimanimani and Chipinge, as well as Mutare Rural and Mutare Urban.
             </p>
             <p className="text-lg text-gray-700">
               Our scalable models are ready for expansion to other provinces, territories, and regionally to support resilience initiatives in disaster response and mitigation.

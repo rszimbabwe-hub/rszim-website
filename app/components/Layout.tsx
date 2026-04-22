@@ -114,7 +114,7 @@ export function Layout() {
             </div>
             <div>
               <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4">Contact Us</h3>
-              <p className="text-gray-400 text-sm">Stand Number 2288, Mutare (Chikanga)</p>
+              <p className="text-gray-400 text-sm">Stand Number 2822, Mutare (Chikanga)</p>
               <p className="text-gray-400 text-sm">Manicaland Province, Zimbabwe</p>
               <p className="text-gray-400 text-sm mt-2">
                 Email:{" "}

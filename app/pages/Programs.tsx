@@ -28,7 +28,7 @@ export function Programs() {
                 <h2 className="text-3xl">Areas of Operation</h2>
               </div>
               <p className="text-lg text-gray-700 mb-4">
-                RSZ is headquartered in Mutare (Chikanga), Manicaland Province, with primary operations in disaster-prone districts including:
+                RSZ is headquartered in Mutare (Chikanga), Manicaland Province, with primary operations in Mutare Rural, Mutare Urban, and other disaster-prone districts including:
               </p>
               <ul className="space-y-3 text-lg text-gray-700 mb-6">
                 <li className="flex items-start gap-2">
@@ -38,6 +38,14 @@ export function Programs() {
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 mt-1">•</span>
                   <span><strong>Chipinge District</strong> - Climate adaptation and livelihood support</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">•</span>
+                  <span><strong>Mutare Rural</strong> - Community resilience and local partnerships</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">•</span>
+                  <span><strong>Mutare Urban</strong> - Urban resilience and coordination</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 mt-1">•</span>

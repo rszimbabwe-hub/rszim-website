@@ -131,7 +131,7 @@ export function Contact() {
               </div>
               <h3 className="text-xl mb-3">Physical Address</h3>
               <p className="text-gray-700">
-                Stand Number 2288<br />
+                Stand Number 2822<br />
                 Mutare (Chikanga)<br />
                 Manicaland Province<br />
                 Zimbabwe

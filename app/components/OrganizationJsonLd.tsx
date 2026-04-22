@@ -29,7 +29,7 @@ export function OrganizationJsonLd() {
       telephone: "+263-772-978-904",
       address: {
         "@type": "PostalAddress",
-        streetAddress: "Stand Number 2288, Mutare (Chikanga)",
+        streetAddress: "Stand Number 2822, Mutare (Chikanga)",
         addressLocality: "Mutare",
         addressRegion: "Manicaland Province",
         addressCountry: "ZW",

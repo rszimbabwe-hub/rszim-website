@@ -123,7 +123,7 @@ export function Home() {
             <div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl mb-4 md:mb-6">Where We Work</h2>
               <p className="text-base md:text-lg text-gray-700 mb-4 md:mb-6">
-                Headquartered in Mutare (Chikanga), Manicaland Province, RSZ operates primarily in disaster-prone districts such as Chimanimani and Chipinge.
+                Headquartered in Mutare (Chikanga), Manicaland Province, RSZ operates primarily in disaster-prone districts such as Chimanimani and Chipinge, and in Mutare Rural and Mutare Urban.
               </p>
               <p className="text-lg text-gray-700 mb-6">
                 Our scalable models are ready for expansion to other provinces, territories, and regionally to support resilience initiatives in disaster response and mitigation.
@@ -149,7 +149,7 @@ export function Home() {
                   <span className="font-semibold">Legal Status:</span> Registered under the Private Voluntary Organisations (PVO) Act [Chapter 17:05] of the Government of Zimbabwe
                 </p>
                 <p>
-                  <span className="font-semibold">Headquarters:</span> Stand Number 2288, Mutare (Chikanga), Manicaland Province, Zimbabwe
+                  <span className="font-semibold">Headquarters:</span> Stand Number 2822, Mutare (Chikanga), Manicaland Province, Zimbabwe
                 </p>
               </div>
             </div>
