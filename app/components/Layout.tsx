@@ -87,7 +87,7 @@ export function Layout() {
   }, []);
 
   const linkClass = (active: boolean) =>
-    `px-3 py-2 rounded-md transition-colors ${
+    `whitespace-nowrap px-2.5 py-2 rounded-md text-[15px] transition-colors ${
       active ? "bg-green-600 text-white" : "text-gray-700 hover:bg-green-50 hover:text-green-600"
     }`;
 
@@ -100,7 +100,7 @@ export function Layout() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center gap-2 py-3 md:py-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 md:gap-3 min-w-0">
+            <Link to="/" className="flex items-center gap-2 md:gap-3 min-w-0 mr-4">
               <img
                 src="/logo.png"
                 alt=""
@@ -117,7 +117,7 @@ export function Layout() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1" aria-label="Main">
+            <nav className="hidden xl:flex shrink-0 items-center gap-0.5" aria-label="Main">
               {NAV_ITEMS.map((item) =>
                 item.children ? (
                   <div
@@ -170,7 +170,7 @@ export function Layout() {
             </nav>
 
             {/* Mobile / tablet: Partner button always visible next to the menu button */}
-            <div className="flex items-center gap-2 lg:hidden">
+            <div className="flex items-center gap-2 xl:hidden">
               <Link to="/partner" className={`${partnerButtonClass} px-3 py-2 text-xs sm:text-sm`}>
                 PARTNER<span className="hidden sm:inline">&nbsp;WITH US</span>
               </Link>
@@ -191,7 +191,7 @@ export function Layout() {
         {mobileMenuOpen && (
           <nav
             aria-label="Main"
-            className="lg:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-4.5rem)] overflow-y-auto bg-white px-4 pb-8 pt-2 border-t border-gray-200 shadow-lg"
+            className="xl:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-4.5rem)] overflow-y-auto bg-white px-4 pb-8 pt-2 border-t border-gray-200 shadow-lg"
           >
             {NAV_ITEMS.map((item) => {
               const expanded = expandedMobile === item.label;
