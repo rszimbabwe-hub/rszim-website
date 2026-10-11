@@ -111,7 +111,7 @@ export function Layout() {
                 height={240}
               />
               <div className="min-w-0">
-                <div className="font-bold text-sm sm:text-base md:text-xl text-gray-900 truncate">Resilient Societies of Zimbabwe</div>
+                <div className="font-bold text-sm leading-tight sm:text-base md:text-lg 2xl:text-xl text-gray-900">Resilient Societies of Zimbabwe</div>
                 <div className="text-xs text-green-600 hidden sm:block">Building Community Resilience</div>
               </div>
             </Link>
